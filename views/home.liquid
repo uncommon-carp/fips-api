@@ -1,0 +1,38 @@
+{% layout 'layout.liquid' %}
+
+{% block content %}
+    <div class="welcome">
+        <h4>Federal Information Processing Standards county codes in a RESTful API</h4>
+        <p>I needed easier access to querying for these codes specifically, so I figured why not share it with everyone. Expanded from code by Derek Swingley and his article <a href="https://derekswingley.com/2019/10/13/using-the-census-api-to-get-county-fips-codes/">here.</a></p>
+    </div>
+    <div>
+        <div class="endpoint">
+            <p>The API expects a GET request to one of a few routes:</p>
+
+            <h5>api/index</h5>
+            <p>Provides a full data set. Every county and code, grouped by state.</p>
+            <p><code>//fips-code-api.herokuapp.com/api/index</code> <a href="http://fips-code-api.herokuapp.com/api/index">Response</a> </p>
+
+            <h5>api/search?state=StateAbbreviation&countyName=CountyName</h5>
+            <p>This endpoint provides a specific county name provided by the {countyName} query.</p>
+            <p><code>//fips-code-api.herokuapp.com/api/search?state=TX&amp;countyName=Travis</code> <a href="http://fips-code-api.herokuapp.com/api/search?state=TX&countyName=Travis">Response</a> </p>
+
+            <h5>JSON Response Format:</h5>
+             
+            <div class="responseDisplay">       
+<pre><code>Query by state and county name:
+    
+[
+    {
+        "name": "Travis County",
+        "fips": "48453",
+        "stateFips": "48",
+        "state": "Texas",
+        "abbrev": "TX"
+    }
+]</code></pre>
+            </div>
+        </div>
+        
+    </div>
+{% endblock %}
