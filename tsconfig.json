@@ -12,6 +12,6 @@
     "moduleResolution": "node",
     "sourceMap": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/views/*.liquid", "src/public/*.css"],
   "exclude": ["node_modules"]
 }
