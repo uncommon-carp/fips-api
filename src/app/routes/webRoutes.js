@@ -1,17 +1,17 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { County } from "../../models/county";
 
 const router = Router();
 
-router.get("/", (__, res: Response) => {
+router.get("/", (__, res) => {
   res.redirect("/docs");
 });
 
-router.get("/docs", (__, res: Response) => {
+router.get("/docs", (__, res) => {
   res.render("home");
 });
 
-router.get("/search", (req: Request, res: Response) => {
+router.get("/search", (req, res) => {
   if (!req.query.countyName || !req.query.state) {
     res.render("search");
   } else {
