@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+const mongoose = require("mongoose");
 
-const countySchema = new Schema(
+const countySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -36,4 +36,4 @@ const countySchema = new Schema(
   },
 );
 
-export const County = model("County", countySchema);
+module.exports = mongoose.model("County", countySchema);
