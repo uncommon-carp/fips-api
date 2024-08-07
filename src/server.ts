@@ -6,8 +6,6 @@ import { Liquid } from "liquidjs";
 import apiRoutes from "./app/routes/apiRoutes";
 import webRoutes from "./app/routes/webRoutes";
 
-const engine = new Liquid();
-
 dotenv.config();
 
 const serverDevPort = 8000;
@@ -20,7 +18,10 @@ mongoose.connection
   .on("error", (error) => console.log(error));
 
 const app = express();
-
+const engine = new Liquid({
+  root: __dirname, // for layouts and partials
+  extname: ".liquid",
+});
 app.engine("liquid", engine.express());
 app.set("views", "./views"); // specify the views directory
 app.set("view engine", "liquid");
