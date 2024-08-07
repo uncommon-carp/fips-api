@@ -5,6 +5,7 @@
         <form action="/search" method="GET">
             <input type="text" placeholder="County Name" name="countyName">
             <select name='state'>
+                <option value="">State</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
                 <option value="AR">AR</option>	
@@ -58,6 +59,9 @@
                 <option value="WY">WY</option>
                 <option value="PR">PR</option>
             </select>
+            <br>
+            <p>OR</p>
+            <input type="text" placeholder="County Code" name="countyCode">
             <br>
             <input type="submit" value="Search">
         </form>
