@@ -30,8 +30,8 @@ app.use(express.static("public"));
 // adding PORT= to your env file will be necessary for deployment
 const port = process.env.PORT || serverDevPort;
 
-const apiRoutes = require("./app/routes/api_routes");
-const webRoutes = require("./app/routes/web_routes");
+const apiRoutes = require("./app/routes/apiRoutes");
+const webRoutes = require("./app/routes/webRoutes");
 
 app.use("/api", apiRoutes);
 app.use(webRoutes);
