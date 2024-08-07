@@ -1,4 +1,5 @@
-const router = require("express").Router();
+const express = require("express");
+const router = express.Router();
 const County = require("../../models/county");
 
 router.get("/index", (__, res) => {
