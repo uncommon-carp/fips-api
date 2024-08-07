@@ -1,10 +1,11 @@
 {% layout 'layout.liquid' %}
 {% block content %}
     <div class="search">
-        <p>Enter a county name and state to get it's FIPS code. Please Note: County names that start with 'Saint' need to be searched as 'St.' currently.</p>
+        <p>Enter a county name and state to get it's FIPS code, or FIPS code to recieve that county's information.</p>
         <form action="/search" method="GET">
             <input type="text" placeholder="County Name" name="countyName">
             <select name='state'>
+                <option value="">State</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
                 <option value="AR">AR</option>	
@@ -58,6 +59,9 @@
                 <option value="WY">WY</option>
                 <option value="PR">PR</option>
             </select>
+            <br>
+            <p>OR</p>
+            <input type="text" placeholder="County Code" name="countyCode">
             <br>
             <input type="submit" value="Search">
         </form>
