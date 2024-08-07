@@ -14,7 +14,6 @@
   "version": "0.0.1",
   "description": "A simple API for retrieving US FIPS codes by state and county name",
   "main": "build/server.js",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ornery-mouse/fips-code-api.git"

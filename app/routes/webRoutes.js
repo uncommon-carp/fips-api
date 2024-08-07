@@ -1,7 +1,5 @@
-import { Router } from "express";
-import { County } from "../../models/county.js";
-
-const router = Router();
+const router = require(express).Router();
+const County = requre("../../models/county");
 
 router.get("/", (__, res) => {
   res.redirect("/docs");
@@ -30,4 +28,4 @@ router.get("/search", (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

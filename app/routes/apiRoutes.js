@@ -1,7 +1,6 @@
-import { Router } from "express";
-import { County } from "../../models/county.js";
+const router = require("express").Router();
+const County = require("../../models/county");
 
-const router = Router();
 router.get("/index", (__, res) => {
   County.find({})
     .sort("state")

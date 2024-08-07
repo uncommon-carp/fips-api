@@ -1,6 +1,5 @@
-import dotenv from "dotenv";
-
-dotenv.config();
+"use strict";
+require("dotenv").config();
 // creating a base name for the mongodb
 // REPLACE THE STRING WITH YOUR OWN DATABASE NAME
 const mongooseBaseName = "fipsCountyCodes";
@@ -15,4 +14,6 @@ const database = {
 const localDb = process.env.TESTENV ? database.test : database.development;
 // Environment variable MONGODB_URI will be available in
 // heroku production evironment otherwise use test or development db
-export const db = process.env.MONGODB_URI || localDb;
+const currentDb = process.env.MONGODB_URI || localDb;
+
+module.exports = currentDb;

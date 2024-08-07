@@ -1,12 +1,16 @@
-import * as fips from "./lib/fips_lookup_by_state.json";
-import mongoose from "mongoose";
+const fips = require("./lib/fips_lookup_by_state");
+const mongoose = require("mongoose");
 const states = Object.values(fips);
 
 // const State = require('./models/state')
-import { County } from "./models/county.js";
-import { db } from "./config/connection.js";
+const County = require("./models/county");
 
-mongoose.connect(db);
+const db = require("./config/connection");
+
+mongoose.connect(db, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 mongoose.connection.on("open", () => {
   console.log(`Connected to ${db}`);
@@ -19,24 +23,24 @@ mongoose.connection.on("open", () => {
     counties.splice(0, 3);
     //turn each of the remaining arrays into a county object inside the new state's counties array
     counties.forEach((county) => {
-      const newCounty = {
-        name: county[0],
-        fips: county[1],
-        state: state._name,
-        stateFips: state._fips,
-        abbrev: state._abbrev,
-      };
+      const newCounty = {};
+      newCounty.name = county[0];
+      newCounty.fips = county[1];
+      newCounty.state = state._name;
+      newCounty.stateFips = state._fips;
+      newCounty.abbrev = state._abbrev;
       seedCounties.push(newCounty);
     });
   });
 
   console.log("before deleteMany");
   County.deleteMany({})
-    .then(() => {
+    .then((deletedCounties) => {
       // Seed Counties
       County.create(seedCounties)
-        .then(() => {
-          console.log("Counties created");
+        .then((newCounties) => {
+          // log the new States to confirm their creation
+          console.log("Countiescreated");
           mongoose.connection.close();
         })
         .catch((error) => {
