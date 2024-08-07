@@ -1,7 +1,7 @@
 {% layout 'layout.liquid' %}
 {% block content %}
     <div class="search">
-        <p>Enter a county name and state to get it's FIPS code. Please Note: County names that start with 'Saint' need to be searched as 'St.' currently.</p>
+        <p>Enter a county name and state to get it's FIPS code, or FIPS code to recieve that county's information.</p>
         <form action="/search" method="GET">
             <input type="text" placeholder="County Name" name="countyName">
             <select name='state'>

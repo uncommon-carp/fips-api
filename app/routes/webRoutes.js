@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const County = require("../../models/county");
+const processString = require("../../lib/processString");
 
 router.get("/", (__, res) => {
   res.redirect("/docs");
@@ -16,9 +17,11 @@ router.get("/search", (req, res) => {
   }
 
   if (req.query.state && req.query.countyName && !req.query.countyCode) {
+    const countyName = processString(req.query.countyName);
+
     County.findOne({
       abbrev: req.query.state,
-      name: { $regex: req.query.countyName },
+      name: { $regex: countyName },
     })
       .then((foundCounty) => {
         console.log(foundCounty);
