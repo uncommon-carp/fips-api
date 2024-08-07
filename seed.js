@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const states = Object.values(fips);
 
 // const State = require('./models/state')
-import { County } from "./models/county";
-import { db } from "./config/connection";
+import { County } from "./models/county.js";
+import { db } from "./config/connection.js";
 
 mongoose.connect(db);
 

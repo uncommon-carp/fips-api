@@ -1,10 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { db } from "./config/connection";
+import { db } from "./config/connection.js";
 import { Liquid } from "liquidjs";
-import apiRoutes from "./app/routes/apiRoutes";
-import webRoutes from "./app/routes/webRoutes";
+import apiRoutes from "./app/routes/apiRoutes.js";
+import webRoutes from "./app/routes/webRoutes.js";
 
 dotenv.config();
 

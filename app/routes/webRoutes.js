@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { County } from "../../models/county";
+import { County } from "../../models/county.js";
 
 const router = Router();
 
