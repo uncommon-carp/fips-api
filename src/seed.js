@@ -6,19 +6,11 @@ const states = Object.values(fips);
 import { County } from "./models/county";
 import { db } from "./config/connection";
 
-interface SeedCounty {
-  name: string;
-  fips: string;
-  state: string;
-  abbrev: string;
-  stateFips: string;
-}
-
 mongoose.connect(db);
 
 mongoose.connection.on("open", () => {
   console.log(`Connected to ${db}`);
-  const seedCounties: SeedCounty[] = [];
+  const seedCounties = [];
 
   states.forEach((state) => {
     // turn the object's attributes into arrays
@@ -27,7 +19,7 @@ mongoose.connection.on("open", () => {
     counties.splice(0, 3);
     //turn each of the remaining arrays into a county object inside the new state's counties array
     counties.forEach((county) => {
-      const newCounty: SeedCounty = {
+      const newCounty = {
         name: county[0],
         fips: county[1],
         state: state._name,

@@ -1,33 +1,32 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { County } from "../../models/county.js";
 
 const router = Router();
-// show all countys and counties
-router.get("/index", (__, res: Response) => {
+router.get("/index", (__, res) => {
   County.find({})
     .sort("state")
-    .then((foundCounties: any) => {
+    .then((foundCounties) => {
       res.json(foundCounties);
     })
-    .catch((err: Error) => console.log(err));
+    .catch((err) => console.log(err));
 });
 
-router.get("/search", (req: Request, res: Response) => {
+router.get("/search", (req, res) => {
   if (!req.query.state || !req.query.countyName) {
     throw new Error("Missing state or countyName");
   }
-  const abbrev: string = (req.query.state as string).toUpperCase();
+  const abbrev = req.query.state.toUpperCase();
   County.findOne({
     abbrev,
     name: { $regex: req.query.countyName },
   })
-    .then((foundCounty: any) => {
+    .then((foundCounty) => {
       console.log(foundCounty);
       !foundCounty
         ? res.json("No results found")
         : res.json(foundCounty.toObject());
     })
-    .catch((err: Error) => console.log(err));
+    .catch((err) => console.log(err));
 });
 
 export default router;

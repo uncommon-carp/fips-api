@@ -1,14 +1,6 @@
 import { Schema, model } from "mongoose";
 
-interface ICounty {
-  name: string;
-  fips: string;
-  stateFips: string;
-  state: string;
-  abbrev: string;
-}
-
-const countySchema = new Schema<ICounty>(
+const countySchema = new Schema(
   {
     name: {
       type: String,
@@ -44,4 +36,4 @@ const countySchema = new Schema<ICounty>(
   },
 );
 
-export const County = model<ICounty>("County", countySchema);
+export const County = model("County", countySchema);
