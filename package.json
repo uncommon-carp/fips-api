@@ -8,8 +8,7 @@
     "mongoose": "^6.2.9"
   },
   "scripts": {
-    "start": "node build/server.js",
-    "build": "tsc && cp -r ./src/views ./build && cp -r ./src/public ./build"
+    "start": "node server.js"
   },
   "name": "fips-api",
   "version": "0.0.1",
