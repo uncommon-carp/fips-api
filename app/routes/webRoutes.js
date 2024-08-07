@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const County = requre("../../models/county");
+const County = require("../../models/county");
 
 router.get("/", (__, res) => {
   res.redirect("/docs");
