@@ -5,11 +5,7 @@ require("dotenv").config();
 
 const db = require("./config/connection");
 const serverDevPort = 8000;
-const clientDevPort = 3000;
 
-// establish database connection
-// use new version of URL parser
-// use createIndex instead of deprecated ensureIndex
 mongoose.connect(db, {
   useNewUrlParser: true,
 });
@@ -36,6 +32,6 @@ const webRoutes = require("./app/routes/webRoutes");
 app.use("/api", apiRoutes);
 app.use(webRoutes);
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("server listening on " + process.env.PORT);
+app.listen(port, () => {
+  console.log("server listening on " + port);
 });
