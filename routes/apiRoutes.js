@@ -10,6 +10,9 @@ const processString = require("../lib/processString");
 router.get("/index", async (__, res, next) => {
   try {
     const counties = await County.find({}).sort("state");
+    if (!counties) {
+      throw new DocumentNotFoundError();
+    }
     const convertedCounties = counties.map((county) => county.toObject());
     res.json(convertedCounties);
   } catch (err) {
