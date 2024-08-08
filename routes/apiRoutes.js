@@ -7,13 +7,15 @@ const {
 } = require("../lib/custom_errors");
 const processString = require("../lib/processString");
 
-router.get("/index", (__, res) => {
-  County.find({})
-    .sort("state")
-    .then((foundCounties) => {
-      res.json(foundCounties);
-    })
-    .catch((err) => console.log(err));
+router.get("/index", async (__, res, next) => {
+  try {
+    const counties = await County.find({}).sort("state");
+    const convertedCounties = counties.map((county) => county.toObject());
+    res.json(convertedCounties);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
 });
 
 router.get("/search", async (req, res, next) => {
