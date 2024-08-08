@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const errorHandler = require("./lib/errorHandler");
+const app = require("liquid-express-views")(express());
 
 require("dotenv").config();
 
@@ -15,8 +17,6 @@ mongoose.connection
   .on("close", () => console.log("Disconnected from MongoDB"))
   .on("error", (error) => console.log(error));
 
-const app = require("liquid-express-views")(express());
-
 app.use(express.urlencoded({ extended: false })); // parse urlencoded request bodies
 app.use(express.static("public"));
 // set CORS headers on response from this API using the `cors` NPM package
@@ -26,11 +26,12 @@ app.use(express.static("public"));
 // adding PORT= to your env file will be necessary for deployment
 const port = process.env.PORT || serverDevPort;
 
-const apiRoutes = require("./app/routes/apiRoutes");
-const webRoutes = require("./app/routes/webRoutes");
+const apiRoutes = require("./routes/apiRoutes");
+const webRoutes = require("./routes/webRoutes");
 
 app.use("/api", apiRoutes);
 app.use(webRoutes);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log("server listening on " + port);

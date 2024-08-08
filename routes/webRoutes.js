@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const County = require("../../models/county");
-const processString = require("../../lib/processString");
+const County = require("../models/county");
+const processString = require("../lib/processString");
 
 router.get("/", (__, res) => {
   res.redirect("/docs");
