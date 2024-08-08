@@ -12,21 +12,35 @@ router.get("/index", (__, res) => {
 });
 
 router.get("/search", (req, res) => {
-  if (!req.query.state || !req.query.countyName) {
-    throw new Error("Missing state or countyName");
+  if ((!req.query.state || !req.query.countyName) && !req.query.countyCode) {
+    throw new Error("Invalid search");
   }
-  const abbrev = req.query.state.toUpperCase();
-  County.findOne({
-    abbrev,
-    name: { $regex: req.query.countyName },
-  })
-    .then((foundCounty) => {
-      console.log(foundCounty);
-      !foundCounty
-        ? res.json("No results found")
-        : res.json(foundCounty.toObject());
+
+  if (req.query.state && req.query.countyName && !req.query.countyCode) {
+    const abbrev = req.query.state.toUpperCase();
+    County.findOne({
+      abbrev,
+      name: { $regex: req.query.countyName },
     })
-    .catch((err) => console.log(err));
+      .then((foundCounty) => {
+        console.log(foundCounty);
+        !foundCounty
+          ? res.json("No results found")
+          : res.json(foundCounty.toObject());
+      })
+      .catch((err) => console.log(err));
+  } else {
+    County.findOne({
+      fips: { $regex: String(req.query.countyCode) },
+    })
+      .then((foundCounty) => {
+        console.log(foundCounty);
+        !foundCounty
+          ? res.json("No results found")
+          : res.json(foundCounty.toObject());
+      })
+      .catch((err) => console.log(err));
+  }
 });
 
 module.exports = router;
