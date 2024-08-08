@@ -4,7 +4,7 @@ const County = require("../models/county");
 const {
   BadParamsError,
   DocumentNotFoundError,
-} = require("../lib/custom_errors");
+} = require("../lib/customErrors");
 const processString = require("../lib/processString");
 
 router.get("/index", async (__, res, next) => {
