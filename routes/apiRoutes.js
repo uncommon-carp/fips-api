@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const County = require("../models/county");
-const { BadParamsError, handle404 } = require("../lib/custom_errors");
+const {
+  BadParamsError,
+  DocumentNotFoundError,
+} = require("../lib/custom_errors");
 const processString = require("../lib/processString");
 
 router.get("/index", (__, res) => {
@@ -13,38 +16,41 @@ router.get("/index", (__, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/search", (req, res) => {
+router.get("/search", async (req, res, next) => {
   if ((!req.query.state || !req.query.countyName) && !req.query.countyCode) {
-    throw new BadParamsError();
+    const err = new BadParamsError(req.query);
+    next(err);
   }
 
   if (req.query.state && req.query.countyName && !req.query.countyCode) {
     const abbrev = req.query.state.toUpperCase();
     const countyName = processString(req.query.countyName);
-    County.findOne({
-      abbrev,
-      name: { $regex: countyName },
-    })
-      .then(handle404)
-      .then((foundCounty) => {
-        console.log(foundCounty);
-        !foundCounty
-          ? res.json("No results found")
-          : res.json(foundCounty.toObject());
-      })
-      .catch((err) => console.log(err));
+    try {
+      const county = await County.findOne({
+        abbrev,
+        name: { $regex: countyName },
+      });
+      if (!county) {
+        throw new DocumentNotFoundError(req.query);
+      }
+      res.json(county.toObject());
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
   } else {
-    County.findOne({
-      fips: { $regex: String(req.query.countyCode) },
-    })
-      .then(handle404)
-      .then((foundCounty) => {
-        console.log(foundCounty);
-        !foundCounty
-          ? res.json("No results found")
-          : res.json(foundCounty.toObject());
-      })
-      .catch((err) => console.log(err));
+    try {
+      const county = await County.findOne({
+        fips: { $regex: String(req.query.countyCode) },
+      });
+      if (!county) {
+        throw new DocumentNotFoundError();
+      }
+      res.json(county.toObject());
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
   }
 });
 
