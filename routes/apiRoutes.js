@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const County = require("../models/county");
-const { BadParamsError } = require("../lib/custom_errors");
-const errorHandler = require("../lib/errorHandler");
+const { BadParamsError, handle404 } = require("../lib/custom_errors");
 const processString = require("../lib/processString");
 
 router.get("/index", (__, res) => {
@@ -26,6 +25,7 @@ router.get("/search", (req, res) => {
       abbrev,
       name: { $regex: countyName },
     })
+      .then(handle404)
       .then((foundCounty) => {
         console.log(foundCounty);
         !foundCounty
@@ -37,6 +37,7 @@ router.get("/search", (req, res) => {
     County.findOne({
       fips: { $regex: String(req.query.countyCode) },
     })
+      .then(handle404)
       .then((foundCounty) => {
         console.log(foundCounty);
         !foundCounty
