@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const County = require("../../models/county");
+const County = require("../models/county");
+const { BadParamsError } = require("../lib/custom_errors");
+const errorHandler = require("../lib/errorHandler");
+const processString = require("../lib/processString");
 
 router.get("/index", (__, res) => {
   County.find({})
@@ -13,14 +16,15 @@ router.get("/index", (__, res) => {
 
 router.get("/search", (req, res) => {
   if ((!req.query.state || !req.query.countyName) && !req.query.countyCode) {
-    throw new Error("Invalid search");
+    throw new BadParamsError();
   }
 
   if (req.query.state && req.query.countyName && !req.query.countyCode) {
     const abbrev = req.query.state.toUpperCase();
+    const countyName = processString(req.query.countyName);
     County.findOne({
       abbrev,
-      name: { $regex: req.query.countyName },
+      name: { $regex: countyName },
     })
       .then((foundCounty) => {
         console.log(foundCounty);
